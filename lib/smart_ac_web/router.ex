@@ -11,6 +11,7 @@ defmodule SmartAcWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug SmartAcWeb.AirConditionerAuthPipeline
   end
 
   scope "/", SmartAcWeb do
@@ -23,6 +24,8 @@ defmodule SmartAcWeb.Router do
   scope "/api", SmartAcWeb do
     pipe_through :api
 
-    post "/air_conditioner", AirConditionerController, :create
+    post "/status_report/bulk", StatusReportController, :bulk
   end
+
+  post "/api/air_conditioner", SmartAcWeb.AirConditionerController, :create
 end

@@ -26,6 +26,10 @@ config :smart_ac, SmartAcWeb.Guardian,
   issuer: "smart_ac",
   secret_key: "CRq103fsJnmWqzqcw+ja90qKHWABgoH/UfByvKiUC4rlPkZe3OVNZ6z2zCSK+6YK"
 
+config :smart_ac, SmartAcWeb.AirConditionerAuthPipeline,
+  module: SmartAcWeb.Guardian,
+  error_handler: SmartAcWeb.AuthErrorHandler
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

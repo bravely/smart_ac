@@ -8,7 +8,7 @@ defmodule SmartAcWeb.Guardian do
   end
   def subject_for_token(_resource, _claims), do: {:error, :unhandled_type}
 
-  def resource_from_claims(%{"serial" => "AC:" <> serial}) do
+  def resource_from_claims(%{"sub" => "AC:" <> serial}) do
     case Devices.find_air_conditioner_by_serial(serial) do
       nil -> {:error, :no_air_conditioner_found}
       air_conditioner -> {:ok, air_conditioner}

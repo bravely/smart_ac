@@ -105,4 +105,113 @@ defmodule SmartAc.Devices do
   def change_air_conditioner(%AirConditioner{} = air_conditioner) do
     AirConditioner.changeset(air_conditioner, %{})
   end
+
+  alias SmartAc.Devices.StatusReport
+
+  @doc """
+  Returns the list of status_reports.
+
+  ## Examples
+
+      iex> list_status_reports()
+      [%StatusReport{}, ...]
+
+  """
+  def list_status_reports do
+    Repo.all(StatusReport)
+  end
+
+  @doc """
+  Gets a single status_report.
+
+  Raises `Ecto.NoResultsError` if the Status report does not exist.
+
+  ## Examples
+
+      iex> get_status_report!(123)
+      %StatusReport{}
+
+      iex> get_status_report!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_status_report!(id), do: Repo.get!(StatusReport, id)
+
+  @doc """
+  Creates a status_report.
+
+  ## Examples
+
+      iex> create_status_report(%{field: value})
+      {:ok, %StatusReport{}}
+
+      iex> create_status_report(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_status_report(attrs \\ %{}) do
+    %StatusReport{}
+    |> StatusReport.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def bulk_create_status_reports(%AirConditioner{id: air_conditioner_id}, status_reports) when is_list(status_reports) do
+    Repo.transaction(fn ->
+      Enum.map(status_reports, fn(attrs) ->
+        {:ok, status_report} =
+          attrs
+          |> Enum.into(%{"air_conditioner_id" => air_conditioner_id})
+          |> create_status_report
+
+        status_report
+      end)
+    end)
+  end
+
+  @doc """
+  Updates a status_report.
+
+  ## Examples
+
+      iex> update_status_report(status_report, %{field: new_value})
+      {:ok, %StatusReport{}}
+
+      iex> update_status_report(status_report, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_status_report(%StatusReport{} = status_report, attrs) do
+    status_report
+    |> StatusReport.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a StatusReport.
+
+  ## Examples
+
+      iex> delete_status_report(status_report)
+      {:ok, %StatusReport{}}
+
+      iex> delete_status_report(status_report)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_status_report(%StatusReport{} = status_report) do
+    Repo.delete(status_report)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking status_report changes.
+
+  ## Examples
+
+      iex> change_status_report(status_report)
+      %Ecto.Changeset{source: %StatusReport{}}
+
+  """
+  def change_status_report(%StatusReport{} = status_report) do
+    StatusReport.changeset(status_report, %{})
+  end
 end

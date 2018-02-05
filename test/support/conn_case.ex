@@ -23,6 +23,12 @@ defmodule SmartAcWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint SmartAcWeb.Endpoint
+
+      def token_for(%SmartAc.Devices.AirConditioner{} = air_conditioner) do
+        {:ok, token, _claims} = SmartAcWeb.Guardian.encode_and_sign(air_conditioner)
+
+        token
+      end
     end
   end
 
