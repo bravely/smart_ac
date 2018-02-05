@@ -20,7 +20,9 @@ defmodule SmartAcWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", SmartAcWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", SmartAcWeb do
+    pipe_through :api
+
+    post "/air_conditioner", AirConditionerController, :create
+  end
 end
