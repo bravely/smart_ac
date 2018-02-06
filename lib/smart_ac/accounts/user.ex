@@ -14,11 +14,19 @@ defmodule SmartAc.Accounts.User do
     timestamps()
   end
 
+  def registration_changeset(attrs) do
+    %User{}
+    |> cast(attrs, [:email, :password, :enabled])
+    |> validate_required([:email, :password, :enabled])
+    |> validate_length(:password, min: 8)
+    |> hash_password
+  end
+
   @doc false
   def changeset(%User{} = user, attrs) do
     user
     |> cast(attrs, [:email, :password, :enabled])
-    |> validate_required([:email, :password, :enabled])
+    |> validate_required([:email, :enabled])
     |> validate_length(:password, min: 8)
     |> hash_password
   end

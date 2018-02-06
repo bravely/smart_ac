@@ -7,25 +7,22 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Hello SmartAc!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <title>SmartAC</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/tachyons.min.css") %>">
   </head>
 
   <body>
-    <div class="container">
-      <header class="header">
-        <nav role="navigation">
-          <ul class="nav nav-pills pull-right">
-            <li><a href="http://www.phoenixframework.org/docs">Get Started</a></li>
-          </ul>
-        </nav>
-        <span class="logo"></span>
-      </header>
+    <div class="avenir">
+      <%= render SmartAcWeb.LayoutView, "_header.html", assigns %>
 
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= if get_flash(@conn, :info) do %>
+        <p class="w-90 ba br-2 pa3 ma2 blue bg-washed-blue" role="alert"><%= get_flash(@conn, :info) %></p>
+      <% end %>
+      <%= if get_flash(@conn, :error) do %>
+        <p class="w-90 ba br2 pa3 ma2 red bg-washed-red" role="alert"><%= get_flash(@conn, :error) %></p>
+      <% end %>
 
-      <main role="main">
+      <main role="main" class="mw7 center">
         <%= render @view_module, @view_template, assigns %>
       </main>
 

@@ -1,0 +1,34 @@
+<h1 class="f4 f3-ns mt4">
+  Admin List
+</h1>
+
+<%= for user <- @user_changesets do %>
+  <article class="dt w-100 bb b--black-05 pb2 mt2">
+    <div class="dtc w2 w3-ns v-mid">
+      <img src="http://via.placeholder.com/200x200" class="ba b--black-10 db br-100 w2 w3-ns h2 h3-ns" />
+    </div>
+    <div class="dtc v-mid pl3">
+      <h1 class="f6 f5-ns fw6 lh-title black mv0">
+        <%= user.data.email %>
+      </h1>
+      <h2 class="f6 fw4 mt0 mb0 black-60">
+        Created at: <%= user.data.inserted_at %>
+      </h2>
+    </div>
+    <div class="dtc v-mid">
+      <%= form_for user, admin_path(@conn, :update, user.data.id), fn f -> %>
+        <%= if user.data.enabled do %>
+          <input type="hidden" id="user_enabled" name="user[enabled]" value="false" />
+          <button class="f6 button-reset bg-near-black ba b--white-10 dim pointer pv1 white" type="submit">
+            Disable
+          </button>
+        <% else %>
+          <input type="hidden" id="user_enabled" name="user[enabled]" value="true" />
+          <button class="f6 button-reset bg-white ba b--black-10 dim pointer pv1 black" type="submit">
+            Enable
+          </button>
+        <% end %>
+      <% end %>
+    </div>
+  </article>
+<% end %>

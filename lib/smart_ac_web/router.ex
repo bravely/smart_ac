@@ -18,6 +18,7 @@ defmodule SmartAcWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/admin", AdminController, only: [:index, :update]
   end
 
   # Other scopes may use custom stacks.

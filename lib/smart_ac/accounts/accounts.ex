@@ -50,9 +50,9 @@ defmodule SmartAc.Accounts do
 
   """
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    attrs
+    |> User.registration_changeset
+    |> Repo.insert
   end
 
   @doc """

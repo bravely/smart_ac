@@ -1,0 +1,7 @@
+<nav class="flex justify-between bb b--white-10 bg-near-black">
+  <%= link "SmartAC", to: "/", class: "link white-70 hover-white no-underline flex pa3" %>
+  <div class="flex-grow pa3 flex items-center">
+    <a href="#" class="f6 link dib white dim mr3 mr4-ns">Devices</a>
+    <%= link "Admins", to: admin_path(@conn, :index), class: "f6 link dib white dim mr3" %>
+  </div>
+</nav>
