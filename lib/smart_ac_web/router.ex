@@ -35,7 +35,7 @@ defmodule SmartAcWeb.Router do
 
     pipe_through :browser_authenticated
 
-    get "/", PageController, :index
+    get "/", AirConditionerController, :index
     resources "/admin", AdminController, only: [:index, :new, :create, :update]
     scope "/air_conditioner" do
       get "/search", AirConditionerController, :search
