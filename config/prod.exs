@@ -61,6 +61,14 @@ config :logger, level: :info
 #     config :smart_ac, SmartAcWeb.Endpoint, server: true
 #
 
+# Database
+config :smart_ac, SmartAc.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+  ssl: true,
+
+
 config :smart_ac, SmartAcWeb.Mailer,
   adapter: Bamboo.SendGridAdapter,
   api_key: {:system, "SEND_GRID_API_KEY"}
