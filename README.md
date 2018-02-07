@@ -35,8 +35,8 @@ This endpoint expects both a formatted `authorization` header, containing `"Bear
 ```json
 {
   "status_reports": [
-    {"carbon_monoxide_ppm": 1, temperature: 13, humidity: 14, device_health: "healthy"},
-    {"carbon_monoxide_ppm": 2, temperature: 15, humidity: 8, device_health: "aging"},
+    {"carbon_monoxide_ppm": 1, "temperature": 13, "humidity": 14, "device_health": "healthy"},
+    {"carbon_monoxide_ppm": 2, "temperature": 15, "humidity": 8, "device_health": "aging"},
   ]
 }
 ````
