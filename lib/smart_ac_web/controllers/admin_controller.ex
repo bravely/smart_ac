@@ -25,7 +25,6 @@ defmodule SmartAcWeb.AdminController do
         |> put_flash(:info, "#{updated_user.email} #{enabled_status}.")
         |> redirect(to: admin_path(conn, :index))
       {:error, changeset} ->
-        require IEx; IEx.pry
         conn
         |> put_flash(:error, "Could not update #{changeset.data.email}, internal server error.")
         |> redirect(to: admin_path(conn, :index))

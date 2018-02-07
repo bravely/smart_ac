@@ -28,7 +28,11 @@ config :smart_ac, SmartAcWeb.Guardian,
 
 config :smart_ac, SmartAcWeb.AirConditionerAuthPipeline,
   module: SmartAcWeb.Guardian,
-  error_handler: SmartAcWeb.AuthErrorHandler
+  error_handler: SmartAcWeb.AirConditionerAuthErrorHandler
+
+config :smart_ac, SmartAcWeb.UserAuthPipeline,
+  module: SmartAcWeb.Guardian,
+  error_handler: SmartAcWeb.UserAuthErrorHandler
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

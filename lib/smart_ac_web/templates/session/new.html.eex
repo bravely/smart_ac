@@ -1,0 +1,20 @@
+<div class="pa4 black-80">
+  <%= form_for @conn, session_path(@conn, :create), [as: :login, class: "measure center"], fn f -> %>
+    <fieldset id="sign_in" class="ba b--transparent ph0 mh0">
+      <legend class="f4 fw6 ph0 mh0">
+        Sign In
+      </legend>
+      <div class="mt3">
+        <%= label f, :email, "Email", class: "db fw6 lh-copy f6" %>
+        <%= email_input f, :email, autofocus: true, value: assigns[:email], class: "pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" %>
+      </div>
+      <div class="mv3">
+        <%= label f, :password, "Password", class: "db fw6 lh-copy f6" %>
+        <%= password_input f, :password, class: "pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" %>
+      </div>
+      <div class="mv3">
+        <%= submit "Sign in", class: "b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" %>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

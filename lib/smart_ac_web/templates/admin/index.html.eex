@@ -16,7 +16,7 @@
       </h2>
     </div>
     <div class="dtc v-mid">
-      <%= form_for user, admin_path(@conn, :update, user.data.id), fn f -> %>
+      <%= form_for user, admin_path(@conn, :update, user.data.id), fn _f -> %>
         <%= if user.data.enabled do %>
           <input type="hidden" id="user_enabled" name="user[enabled]" value="false" />
           <button class="f6 button-reset bg-near-black ba b--white-10 dim pointer pv1 white" type="submit">

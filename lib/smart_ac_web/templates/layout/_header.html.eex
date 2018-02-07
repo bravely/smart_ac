@@ -3,5 +3,10 @@
   <div class="flex-grow pa3 flex items-center">
     <a href="#" class="f6 link dib white dim mr3 mr4-ns">Devices</a>
     <%= link "Admins", to: admin_path(@conn, :index), class: "f6 link dib white dim mr3" %>
+    <%= if assigns[:current_user] do %>
+      <%= link "Logout", to: session_path(@conn, :delete), method: "delete", class: "f6 link dib white dim mr3" %>
+    <% else %>
+      <%= link "Login", to: session_path(@conn, :new), class: "f6 link dib white dim mr3" %>
+    <% end %>
   </div>
 </nav>

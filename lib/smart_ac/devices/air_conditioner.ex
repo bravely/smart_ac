@@ -18,5 +18,6 @@ defmodule SmartAc.Devices.AirConditioner do
     |> cast(attrs, [:serial, :registered_at, :firmware_version])
     |> validate_required([:serial, :registered_at, :firmware_version])
     |> unsafe_validate_unique([:serial], SmartAc.Repo)
+    |> unique_constraint(:serial)
   end
 end

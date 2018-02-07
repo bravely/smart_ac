@@ -16,17 +16,18 @@ defmodule SmartAc.Accounts.User do
 
   def registration_changeset(attrs) do
     %User{}
-    |> cast(attrs, [:email, :password, :enabled])
-    |> validate_required([:email, :password, :enabled])
-    |> validate_length(:password, min: 8)
-    |> hash_password
+    |> cast(attrs, [:password])
+    |> validate_required([:password])
+    |> changeset(attrs)
   end
 
   @doc false
-  def changeset(%User{} = user, attrs) do
-    user
+  def changeset(user_or_changeset, attrs) do
+    user_or_changeset
     |> cast(attrs, [:email, :password, :enabled])
     |> validate_required([:email, :enabled])
+    |> unsafe_validate_unique([:email], SmartAc.Repo)
+    |> unique_constraint(:email)
     |> validate_length(:password, min: 8)
     |> hash_password
   end

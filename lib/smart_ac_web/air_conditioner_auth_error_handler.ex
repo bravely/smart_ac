@@ -1,4 +1,4 @@
-defmodule SmartAcWeb.AuthErrorHandler do
+defmodule SmartAcWeb.AirConditionerAuthErrorHandler do
   import Plug.Conn
 
   def auth_error(conn, {type, _reason}, _opts) do

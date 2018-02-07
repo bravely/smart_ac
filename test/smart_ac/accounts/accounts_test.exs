@@ -29,6 +29,11 @@ defmodule SmartAc.AccountsTest do
       assert Accounts.get_user!(user.id) == user
     end
 
+    test "find_user_by_email/1 returns the user with the given email" do
+      user = user_fixture()
+      assert Accounts.find_user_by_email(user.email) == user
+    end
+
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
       assert user.email == "some email"
