@@ -11,6 +11,26 @@ defmodule SmartAcWeb.AdminController do
     render(conn, "index.html", user_changesets: user_changesets)
   end
 
+  def new(conn, _params) do
+    render(conn, "new.html")
+  end
+
+  def create(conn, %{"email" => email}) do
+    case Accounts.create_user(%{email: email, password: SecureRandom.urlsafe_base64()}) do
+      {:ok, user} ->
+        {:ok, updated_user} = Accounts.update_with_access_token(user)
+        deliver_password_reset_email(updated_user)
+
+        conn
+        |> put_flash(:info, "#{user.email} has been invited.")
+        |> redirect(to: admin_path(conn, :index))
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:error, "Invalid email.")
+        |> render("new.html")
+    end
+  end
+
   def update(conn, %{"id" => user_id, "user" => user_params}) do
     user = Accounts.get_user!(user_id)
     case Accounts.update_user(user, user_params) do
@@ -36,7 +56,8 @@ defmodule SmartAcWeb.AdminController do
   end
 
   def password_reset(conn, %{"email" => email}) do
-    Accounts.update_with_access_token(email)
+    {:ok, updated_user} = Accounts.update_with_access_token(email)
+    deliver_password_reset_email(updated_user)
 
     conn
     |> put_flash(:info, "A password reset email has been sent to #{email}.")
@@ -69,5 +90,11 @@ defmodule SmartAcWeb.AdminController do
         |> put_flash(:error, "There was an error updating your password, try again.")
         |> render("new_password_reset.html")
     end
+  end
+
+  defp deliver_password_reset_email(user) do
+    user
+    |> SmartAcWeb.Email.password_reset
+    |> SmartAcWeb.Mailer.deliver_later
   end
 end

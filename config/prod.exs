@@ -59,6 +59,10 @@ config :logger, level: :info
 #     config :smart_ac, SmartAcWeb.Endpoint, server: true
 #
 
+config :smart_ac, SmartAcWeb.Mailer,
+  adapter: Bamboo.SendGridAdapter,
+  api_key: {:system, "SEND_GRID_API_KEY"}
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"

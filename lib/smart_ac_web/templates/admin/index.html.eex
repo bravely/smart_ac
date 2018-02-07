@@ -2,6 +2,8 @@
   Admin List
 </h1>
 
+<%= link "Invite Admin", to: admin_path(@conn, :new), class: "f5 no-underline black bg-animate hover-bg-black hover-white inline-flex items-center pa3 ba border-box mv3" %>
+
 <%= for user <- @user_changesets do %>
   <article class="dt w-100 bb b--black-05 pb2 mt2">
     <div class="dtc w2 w3-ns v-mid">

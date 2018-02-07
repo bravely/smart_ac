@@ -21,3 +21,6 @@ config :smart_ac, SmartAc.Repo,
 config :argon2_elixir,
   t_cost: 2,
   m_cost: 12
+
+config :smart_ac, SmartAcWeb.Mailer,
+  adapter: Bamboo.TestAdapter

@@ -20,6 +20,7 @@ defmodule SmartAcWeb.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
       import SmartAcWeb.Router.Helpers
+      use Bamboo.Test
 
       # The default endpoint for testing
       @endpoint SmartAcWeb.Endpoint

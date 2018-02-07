@@ -9,7 +9,7 @@ defmodule SmartAcWeb.SessionController do
 
   def create(conn, %{"login" => %{"email" => email, "password" => password}}) do
     with %Accounts.User{} = user_with_email <- Accounts.find_user_by_email(email),
-      {:ok, user} = Comeonin.Argon2.check_pass(user_with_email, password) do
+      {:ok, user} <- Comeonin.Argon2.check_pass(user_with_email, password) do
 
       conn
       |> SmartAcWeb.Guardian.Plug.sign_in(user)

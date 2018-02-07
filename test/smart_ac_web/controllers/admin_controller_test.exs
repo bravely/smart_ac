@@ -17,6 +17,33 @@ defmodule SmartAcWeb.AdminControllerTest do
     assert body =~ "second@example.com"
   end
 
+  test "GET /admin/new", %{conn: conn} do
+    {:ok, first} = Accounts.create_user(%{email: "first@example.com", password: "password"})
+
+    conn =
+      conn
+      |> sign_in(first)
+      |> get("/admin")
+
+    assert html_response(conn, 200) =~ "Invite Admin"
+  end
+
+  test "POST /admin", %{conn: conn} do
+    {:ok, first} = Accounts.create_user(%{email: "first@example.com", password: "password"})
+    new_user_email = "test@example.com"
+
+    conn =
+      conn
+      |> sign_in(first)
+      |> post("/admin", %{"email" => new_user_email})
+
+
+    assert html_response(conn, 302)
+    assert new_user = Accounts.find_user_by_email(new_user_email)
+    assert new_user.access_token
+    assert_delivered_email SmartAcWeb.Email.password_reset(new_user)
+  end
+
   test "PUT /admin/:id", %{conn: conn} do
     {:ok, user} = Accounts.create_user(%{email: "admin@example.com", password: "password"})
 
@@ -46,5 +73,6 @@ defmodule SmartAcWeb.AdminControllerTest do
 
     assert html_response(conn, 200) =~ "Password Reset"
     assert updated_user.access_token
+    assert_delivered_email SmartAcWeb.Email.password_reset(updated_user)
   end
 end

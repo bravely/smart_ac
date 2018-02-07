@@ -55,3 +55,6 @@ config :smart_ac, SmartAc.Repo,
   database: "smart_ac_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :smart_ac, SmartAcWeb.Mailer,
+  adapter: Bamboo.LocalAdapter

@@ -36,7 +36,7 @@ defmodule SmartAcWeb.Router do
     pipe_through :browser_authenticated
 
     get "/", PageController, :index
-    resources "/admin", AdminController, only: [:index, :update]
+    resources "/admin", AdminController, only: [:index, :new, :create, :update]
   end
 
   # Other scopes may use custom stacks.

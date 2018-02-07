@@ -20,7 +20,7 @@ defmodule SmartAc.Mixfile do
   def application do
     [
       mod: {SmartAc.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :bamboo]
     ]
   end
 
@@ -44,7 +44,8 @@ defmodule SmartAc.Mixfile do
       {:guardian, "~> 1.0"},
       {:comeonin, "~> 4.0"},
       {:argon2_elixir, "~> 1.2"},
-      {:secure_random, "~> 0.5"}
+      {:secure_random, "~> 0.5"},
+      {:bamboo, git: "https://github.com/bravely/bamboo.git"}
     ]
   end
 
