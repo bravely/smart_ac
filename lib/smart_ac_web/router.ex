@@ -37,6 +37,11 @@ defmodule SmartAcWeb.Router do
 
     get "/", PageController, :index
     resources "/admin", AdminController, only: [:index, :new, :create, :update]
+    scope "/air_conditioner" do
+      get "/search", AirConditionerController, :search
+      post "/:id/resolve", AirConditionerController, :resolve
+      resources "/", AirConditionerController, only: [:index, :show]
+    end
   end
 
   # Other scopes may use custom stacks.

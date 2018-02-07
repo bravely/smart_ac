@@ -8,6 +8,7 @@ defmodule SmartAc.Devices.AirConditioner do
     field :firmware_version, :string
     field :registered_at, :utc_datetime
     field :serial, :string
+    field :safe, :boolean, default: true
 
     timestamps()
   end
@@ -16,8 +17,12 @@ defmodule SmartAc.Devices.AirConditioner do
   def changeset(%AirConditioner{} = air_conditioner, attrs) do
     air_conditioner
     |> cast(attrs, [:serial, :registered_at, :firmware_version])
-    |> validate_required([:serial, :registered_at, :firmware_version])
+    |> validate_required([:serial, :registered_at, :firmware_version, :safe])
     |> unsafe_validate_unique([:serial], SmartAc.Repo)
     |> unique_constraint(:serial)
+  end
+
+  def unsafe_ac_changeset(%AirConditioner{} = air_conditioner) do
+    change(air_conditioner, %{safe: false})
   end
 end

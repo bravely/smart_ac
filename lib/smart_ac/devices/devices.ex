@@ -21,6 +21,10 @@ defmodule SmartAc.Devices do
     Repo.all(AirConditioner)
   end
 
+  def list_air_conditioners_ordered do
+    Repo.all(from ac in AirConditioner, order_by: [desc: ac.safe, desc: ac.updated_at])
+  end
+
   @doc """
   Gets a single air_conditioner.
 
@@ -74,7 +78,13 @@ defmodule SmartAc.Devices do
   def update_air_conditioner(%AirConditioner{} = air_conditioner, attrs) do
     air_conditioner
     |> AirConditioner.changeset(attrs)
-    |> Repo.update()
+    |> Repo.update
+  end
+
+  def update_air_conditioner_to_safe(%AirConditioner{} = air_conditioner) do
+    air_conditioner
+    |> Ecto.Changeset.change(%{safe: true})
+    |> Repo.update
   end
 
   @doc """

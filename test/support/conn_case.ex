@@ -22,6 +22,11 @@ defmodule SmartAcWeb.ConnCase do
       import SmartAcWeb.Router.Helpers
       use Bamboo.Test
 
+      alias SmartAc.{
+        Accounts,
+        Devices
+      }
+
       # The default endpoint for testing
       @endpoint SmartAcWeb.Endpoint
 

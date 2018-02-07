@@ -1,0 +1,34 @@
+<h1 class="f4 f3-ns mv4">
+  Air Conditioners
+</h1>
+
+<%= form_for @conn, air_conditioner_path(@conn, :search), [
+  method: :get,
+  class: "pa4 black-80"
+], fn f -> %>
+  <div class="measure ma0 pa0">
+    <%= text_input f, :query, placeholder: "Search by Serial", class: "f6 button dim pa2 ph3 dib white bg-black b--black br0" %>
+  </div>
+<% end %>
+
+<%= for air_conditioner <- @air_conditioners do %>
+  <article class="dt w-100 bb b--black-05 pb2 mt2">
+    <div class="dtc w2 w3-ns v-mid">
+      <%= if air_conditioner.safe do %>
+        <span>Safe</span>
+      <% else %>
+        <span class="red">Unsafe</span>
+      <% end %>
+    </div>
+    <div class="dtc v-mid pl3">
+      <%= link to: air_conditioner_path(@conn, :show, air_conditioner.id), class: "no-underline" do %>
+        <h1 class="f6 f5-ns fw6 lh-title black mv0">
+          <%= air_conditioner.serial %>
+        </h1>
+      <% end %>
+      <h2 class="f6 fw4 mt0 mb0 black-60">
+        Firmware Version: <%= air_conditioner.firmware_version %>
+      </h2>
+    </div>
+  </article>
+<% end %>

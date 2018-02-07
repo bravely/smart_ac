@@ -68,6 +68,16 @@ defmodule SmartAc.DevicesTest do
       assert air_conditioner == Devices.get_air_conditioner!(air_conditioner.id)
     end
 
+    test "update_air_conditioner_to_safe/1 changes an unsafe ac to safe" do
+      air_conditioner =
+        %AirConditioner{serial: "test123", registered_at: DateTime.utc_now, firmware_version: "0.1", safe: false}
+        |> Repo.insert!
+
+      {:ok, updated_air_conditioner} = Devices.update_air_conditioner_to_safe(air_conditioner)
+
+      assert updated_air_conditioner.safe == true
+    end
+
     test "delete_air_conditioner/1 deletes the air_conditioner" do
       air_conditioner = air_conditioner_fixture()
       assert {:ok, %AirConditioner{}} = Devices.delete_air_conditioner(air_conditioner)
@@ -83,8 +93,8 @@ defmodule SmartAc.DevicesTest do
   describe "status_reports" do
     alias SmartAc.Devices.StatusReport
 
-    @valid_attrs %{carbon_monoxide_ppm: 42, device_health: "some device_health", humidity: 42, temperature: 42}
-    @update_attrs %{carbon_monoxide_ppm: 43, device_health: "some updated device_health", humidity: 43, temperature: 43}
+    @valid_attrs %{carbon_monoxide_ppm: 2, device_health: "some device_health", humidity: 42, temperature: 42, reported_at: DateTime.utc_now}
+    @update_attrs %{carbon_monoxide_ppm: 8, device_health: "some updated device_health", humidity: 43, temperature: 43}
     @invalid_attrs %{carbon_monoxide_ppm: nil, device_health: nil, humidity: nil, temperature: nil}
 
     def status_report_fixture(attrs \\ %{}) do
@@ -95,7 +105,7 @@ defmodule SmartAc.DevicesTest do
         |> Enum.into(valid_attrs)
         |> Devices.create_status_report()
 
-      status_report
+      Devices.get_status_report!(status_report.id)
     end
 
     test "list_status_reports/0 returns all status_reports" do
@@ -112,7 +122,7 @@ defmodule SmartAc.DevicesTest do
       valid_attrs = Map.merge(@valid_attrs, %{air_conditioner_id: air_conditioner_fixture().id})
 
       assert {:ok, %StatusReport{} = status_report} = Devices.create_status_report(valid_attrs)
-      assert status_report.carbon_monoxide_ppm == 42
+      assert status_report.carbon_monoxide_ppm == 2
       assert status_report.device_health == "some device_health"
       assert status_report.humidity == 42
       assert status_report.temperature == 42
@@ -120,6 +130,16 @@ defmodule SmartAc.DevicesTest do
 
     test "create_status_report/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Devices.create_status_report(@invalid_attrs)
+    end
+
+    test "create_status_report with unsafe values registers issue" do
+      status_report = status_report_fixture(%{carbon_monoxide_ppm: 10})
+      ac =
+        status_report
+        |> Ecto.assoc(:air_conditioner)
+        |> Repo.one
+
+      assert ac.safe == false
     end
 
     test "bulk_create_status_reports/1 with valid data returns a tuple" do
@@ -136,7 +156,7 @@ defmodule SmartAc.DevicesTest do
       status_report = status_report_fixture()
       assert {:ok, status_report} = Devices.update_status_report(status_report, @update_attrs)
       assert %StatusReport{} = status_report
-      assert status_report.carbon_monoxide_ppm == 43
+      assert status_report.carbon_monoxide_ppm == 8
       assert status_report.device_health == "some updated device_health"
       assert status_report.humidity == 43
       assert status_report.temperature == 43

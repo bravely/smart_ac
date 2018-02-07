@@ -1,0 +1,18 @@
+<article class="pa3 pa5-ns">
+  <h1><%= @air_conditioner.serial %></h1>
+  <div class="measure">
+    <%= if @air_conditioner.safe do %>
+      <span class="f6">Safe</span>
+    <% else %>
+      <%= link "Unsafe: Resolve?", to: air_conditioner_path(@conn, :resolve, @air_conditioner.id), method: :post, class: "f6 link dim ba ph3 pv2 mb2 dib red" %>
+    <% end %>
+  </div>
+  <dl class="dib mr5">
+    <dd class="f6 f5-ns b ml0">Firmware Version</dd>
+    <dd class="f3 f2-ns b ml0"><%= @air_conditioner.firmware_version %></dd>
+  </dl>
+  <dl class="dib mr5">
+    <dd class="f6 f5-ns b ml0">Registered At</dd>
+    <dd class="f3 f2-ns b ml0"><%= @air_conditioner.registered_at %></dd>
+  </dl>
+</article>
