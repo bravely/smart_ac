@@ -9,7 +9,9 @@ defmodule SmartAcWeb.AirConditionerController do
   end
 
   def show(conn, %{"id" => ac_id}) do
-    render(conn, "show.html", air_conditioner: Devices.get_air_conditioner!(ac_id))
+    air_conditioner = Devices.get_air_conditioner!(ac_id)
+    status_reports = Devices.list_status_reports_for_air_conditioner(air_conditioner)
+    render(conn, "show.html", air_conditioner: air_conditioner, status_reports: status_reports)
   end
 
   # JSON-only

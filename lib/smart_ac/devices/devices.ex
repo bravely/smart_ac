@@ -131,6 +131,11 @@ defmodule SmartAc.Devices do
     Repo.all(StatusReport)
   end
 
+  def list_status_reports_for_air_conditioner(%AirConditioner{id: ac_id}) do
+    Repo.all(from s in StatusReport, where: s.air_conditioner_id == ^ac_id, order_by: [desc: :reported_at], limit: 120)
+
+  end
+
   @doc """
   Gets a single status_report.
 
