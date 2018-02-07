@@ -14,6 +14,7 @@
       </div>
       <div class="mv3">
         <%= submit "Sign in", class: "b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" %>
+        <%= link "Password Reset", to: admin_path(@conn, :new_password_reset) %>
       </div>
     </fieldset>
   <% end %>

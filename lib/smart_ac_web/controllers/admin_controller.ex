@@ -30,4 +30,44 @@ defmodule SmartAcWeb.AdminController do
         |> redirect(to: admin_path(conn, :index))
     end
   end
+
+  def new_password_reset(conn, _params) do
+    render(conn, "new_password_reset.html")
+  end
+
+  def password_reset(conn, %{"email" => email}) do
+    Accounts.update_with_access_token(email)
+
+    conn
+    |> put_flash(:info, "A password reset email has been sent to #{email}.")
+    |> render("new_password_reset.html")
+  end
+
+  def edit_password(conn, %{"access_token" => access_token}) do
+    case Accounts.find_user_by_access_token(access_token) do
+      %Accounts.User{} ->
+        render(conn, "edit_password.html", access_token: access_token)
+      nil ->
+        conn
+        |> put_flash(:error, "No user found with given access token")
+        |> render("new_password_reset.html")
+    end
+  end
+
+  def update_password(conn, %{"access_token" => access_token, "password" => password}) do
+    case Accounts.update_user_password_via_access_token(access_token, password) do
+      {:ok, _user} ->
+        conn
+        |> put_flash(:info, "Password successfully updated, please log in.")
+        |> redirect(to: session_path(conn, :new))
+      {:error, :not_found} ->
+        conn
+        |> put_flash(:error, "No user found with given access token")
+        |> render("new_password_reset.html")
+      {:error, _changeset} ->
+        conn
+        |> put_flash(:error, "There was an error updating your password, try again.")
+        |> render("new_password_reset.html")
+    end
+  end
 end

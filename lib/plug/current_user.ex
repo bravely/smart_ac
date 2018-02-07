@@ -7,9 +7,8 @@ defmodule SmartAcWeb.Plug.CurrentUser do
 
   def call(conn, _opts) do
     case Guardian.Plug.current_resource(conn) do
-      %User{} = current_user ->
-        conn
-        |> assign(:current_user, current_user)
+      %User{enabled: true} = current_user ->
+        assign(conn, :current_user, current_user)
       _other ->
         SmartAcWeb.Guardian.Plug.sign_out(conn)
     end

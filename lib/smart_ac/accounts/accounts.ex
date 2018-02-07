@@ -41,6 +41,10 @@ defmodule SmartAc.Accounts do
     Repo.get_by(User, email: email)
   end
 
+  def find_user_by_access_token(access_token) do
+    Repo.get_by(User, access_token: access_token)
+  end
+
   @doc """
   Creates a user.
 
@@ -74,7 +78,31 @@ defmodule SmartAc.Accounts do
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
-    |> Repo.update()
+    |> Repo.update
+  end
+
+  def update_with_access_token(%User{} = user) do
+    user
+    |> change_user
+    |> Ecto.Changeset.change(%{access_token: SecureRandom.urlsafe_base64})
+    |> Repo.update
+  end
+  def update_with_access_token(email) when is_binary(email) do
+    case Repo.get_by(User, email: email) do
+      %User{} = user -> update_with_access_token(user)
+      nil -> {:error, :not_found}
+    end
+  end
+
+  def update_user_password_via_access_token(access_token, password) do
+    case find_user_by_access_token(access_token) do
+      %User{} = user ->
+        user
+        |> User.changeset(%{password: password})
+        |> Ecto.Changeset.change(%{access_token: nil})
+        |> Repo.update
+      nil -> {:error, :not_found}
+    end
   end
 
   @doc """

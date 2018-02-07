@@ -8,14 +8,15 @@ defmodule SmartAc.Accounts.User do
     field :email, :string
     field :enabled, :boolean, default: true
     field :password_hash, :string
+    field :access_token, :string
 
     field :password, :string, virtual: true
 
     timestamps()
   end
 
-  def registration_changeset(attrs) do
-    %User{}
+  def registration_changeset(user \\ %User{}, attrs) do
+    user
     |> cast(attrs, [:password])
     |> validate_required([:password])
     |> changeset(attrs)

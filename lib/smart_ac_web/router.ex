@@ -25,6 +25,13 @@ defmodule SmartAcWeb.Router do
     pipe_through :browser # Use the default browser stack
 
     resources "/session", SessionController, only: [:new, :create, :delete], singleton: true
+    scope "/admin" do
+      get "/password_reset/new", AdminController, :new_password_reset
+      post "/password_reset", AdminController, :password_reset
+
+      get "/edit_password", AdminController, :edit_password
+      put "/update_password", AdminController, :update_password
+    end
 
     pipe_through :browser_authenticated
 

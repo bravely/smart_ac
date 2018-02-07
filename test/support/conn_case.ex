@@ -29,6 +29,10 @@ defmodule SmartAcWeb.ConnCase do
 
         token
       end
+
+      def sign_in(conn, user) do
+        SmartAcWeb.Guardian.Plug.sign_in(conn, user)
+      end
     end
   end
 
